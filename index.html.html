@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vitrine de Tortas e Salgados</title>
+  <style>
+    :root {
+      --bg: #fff8f5;
+      --card: #ffffff;
+      --text: #2c2c2c;
+      --muted: #6b6b6b;
+      --primary: #c85f7d;
+      --primary-dark: #ad4f6a;
+      --border: #f0d7df;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .container {
+      width: min(1150px, 92%);
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 36px 0 18px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #f8dbe4, #ffd4c6);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 34px 24px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 10px;
+      color: #8d3853;
+    }
+
+    .hero p {
+      color: #5f4a52;
+      font-size: 1rem;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin: 22px 0 10px;
+      flex-wrap: wrap;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .tab-btn,
+    .primary-btn,
+    .danger-btn,
+    .secondary-btn {
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
+
+    .tab-btn,
+    .secondary-btn {
+      background: #fff;
+      border: 1px solid var(--border);
+      color: #7b5260;
+    }
+
+    .tab-btn.active,
+    .primary-btn {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .primary-btn:hover,
+    .tab-btn.active:hover {
+      background: var(--primary-dark);
+    }
+
+    .secondary-btn:hover,
+    .tab-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .danger-btn {
+      background: #ffe4e4;
+      color: #a73d3d;
+      border: 1px solid #f1bcbc;
+    }
+
+    .danger-btn:hover {
+      background: #ffd5d5;
+    }
+
+    .panel {
+      display: none;
+      margin: 20px 0 40px;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .section-title {
+      margin-bottom: 18px;
+      font-size: 1.6rem;
+      color: #8d3853;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .card img {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      display: block;
+      background: #f3f3f3;
+    }
+
+    .card-body {
+      padding: 16px;
+    }
+
+    .category {
+      display: inline-block;
+      background: #fff0f4;
+      color: #a04865;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      margin-bottom: 12px;
+      border: 1px solid #f2c8d5;
+    }
+
+    .card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.5;
+      min-height: 44px;
+    }
+
+    .price {
+      display: block;
+      margin-top: 12px;
+      font-size: 1.15rem;
+      font-weight: bold;
+      color: #8a3450;
+    }
+
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 22px;
+    }
+
+    .box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .box h3 {
+      margin-bottom: 16px;
+      color: #8d3853;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    label {
+      font-size: 0.92rem;
+      font-weight: bold;
+      color: #6f4f59;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid #e8ccd5;
+      outline: none;
+      font-size: 0.95rem;
+      background: #fff;
+    }
+
+    textarea {
+      min-height: 95px;
+      resize: vertical;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .admin-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .admin-item {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 14px;
+      padding: 12px;
+      border: 1px solid #efd8df;
+      border-radius: 18px;
+      align-items: center;
+      background: #fffafc;
+    }
+
+    .admin-item img {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 14px;
+      background: #f1f1f1;
+    }
+
+    .admin-item h4 {
+      margin-bottom: 6px;
+    }
+
+    .admin-item p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 8px;
+    }
+
+    .admin-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .hint {
+      margin-top: 10px;
+      color: #7a6268;
+      font-size: 0.88rem;
+      line-height: 1.45;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 30px 15px;
+      color: #7d6b72;
+      background: #fff;
+      border: 1px dashed #e6c9d2;
+      border-radius: 20px;
+    }
+
+    footer {
+      text-align: center;
+      color: #816c73;
+      padding: 10px 0 30px;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 860px) {
+      .admin-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .admin-item {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-item img {
+        width: 100%;
+        height: 170px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="hero">
+        <h1>Vitrine de Tortas e Salgados</h1>
+        <p>Catálogo online com painel de administração para editar produtos e adicionar fotos.</p>
+      </div>
+    </header>
+
+    <div class="topbar">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="loja">Loja</button>
+        <button class="tab-btn" data-tab="admin">Admin</button>
+      </div>
+    </div>
+
+    <section id="loja" class="panel active">
+      <h2 class="section-title">Produtos</h2>
+      <div id="productsGrid" class="grid"></div>
+    </section>
+
+    <section id="admin" class="panel">
+      <h2 class="section-title">Painel Admin</h2>
+
+      <div class="admin-layout">
+        <div class="box">
+          <h3 id="formTitle">Adicionar produto</h3>
+
+          <form id="productForm" class="form-grid">
+            <div>
+              <label for="name">Nome do produto</label>
+              <input type="text" id="name" placeholder="Ex.: Torta de chocolate" required />
+            </div>
+
+            <div>
+              <label for="category">Categoria</label>
+              <select id="category" required>
+                <option value="">Selecione</option>
+                <option value="Doce">Doce</option>
+                <option value="Salgado">Salgado</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="price">Preço</label>
+              <input type="number" id="price" min="0" step="0.01" placeholder="Ex.: 45" required />
+            </div>
+
+            <div>
+              <label for="description">Descrição</label>
+              <textarea id="description" placeholder="Descreva o produto" required></textarea>
+            </div>
+
+            <div>
+              <label for="image">Foto do produto</label>
+              <input type="file" id="image" accept="image/*" />
+            </div>
+
+            <div class="hint">
+              A foto enviada fica salva no navegador do aparelho em que você editar. Para sites simples, isso já funciona bem para testar e administrar localmente.
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="primary-btn" id="saveBtn">Salvar produto</button>
+              <button type="button" class="secondary-btn" id="cancelEditBtn" style="display:none;">Cancelar edição</button>
+              <button type="button" class="danger-btn" id="resetAllBtn">Restaurar produtos padrão</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="box">
+          <h3>Produtos cadastrados</h3>
+          <div id="adminList" class="admin-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Site catálogo com administração local.
+    </footer>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "catalogo_tortas_produtos_v1";
+
+    const defaultProducts = [
+      {
+        id: crypto.randomUUID(),
+        name: "Torta de Chocolate",
+        category: "Doce",
+        price: 45,
+        description: "Massa macia com recheio cremoso e cobertura intensa de chocolate.",
+        image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        id: crypto.randomUUID(),
+        name: "Torta de Morango",
+        category: "Doce",
+        price: 52,
+        description: "Creme suave, massa leve e morangos por cima para um sabor especial.",
+        image: "https://images.unsplash.com/photo-1464306076886-da185f6a9d05?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        id: crypto.randomUUID(),
+        name: "Empada de Frango",
+        category: "Salgado",
+        price: 8,
+        description: "Empada amanteigada com recheio bem temperado de frango.",
+        image: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        id: crypto.randomUUID(),
+        name: "Empada de Queijo",
+        category: "Salgado",
+        price: 8,
+        description: "Massa leve com recheio cremoso de queijo, ideal para lanche.",
+        image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=900&q=80"
+      }
+    ];
+
+    let products = loadProducts();
+    let editingId = null;
+    let currentImage = "";
+
+    const productsGrid = document.getElementById("productsGrid");
+    const adminList = document.getElementById("adminList");
+    const productForm = document.getElementById("productForm");
+    const formTitle = document.getElementById("formTitle");
+    const saveBtn = document.getElementById("saveBtn");
+    const cancelEditBtn = document.getElementById("cancelEditBtn");
+    const resetAllBtn = document.getElementById("resetAllBtn");
+
+    const nameInput = document.getElementById("name");
+    const categoryInput = document.getElementById("category");
+    const priceInput = document.getElementById("price");
+    const descriptionInput = document.getElementById("description");
+    const imageInput = document.getElementById("image");
+
+    const ADMIN_PASSWORD = "deliciasdaray123";
+
+    document.querySelectorAll(".tab-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const target = btn.dataset.tab;
+
+        // Proteção da aba admin
+        if (target === "admin") {
+          const senha = prompt("Digite a senha do admin:");
+          if (senha !== ADMIN_PASSWORD) {
+            alert("Senha incorreta.");
+            return;
+          }
+        }
+
+        document.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
+        document.querySelectorAll(".panel").forEach((p) => p.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(target).classList.add("active");
+      });
+    });
+    });
+
+    imageInput.addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      currentImage = await fileToBase64(file);
+    });
+
+    productForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const newProduct = {
+        id: editingId || crypto.randomUUID(),
+        name: nameInput.value.trim(),
+        category: categoryInput.value,
+        price: Number(priceInput.value),
+        description: descriptionInput.value.trim(),
+        image: currentImage || "https://via.placeholder.com/800x600?text=Sem+Foto"
+      };
+
+      if (!newProduct.name || !newProduct.category || !newProduct.description || !newProduct.price) {
+        alert("Preencha todos os campos obrigatórios.");
+        return;
+      }
+
+      if (editingId) {
+        products = products.map((product) => product.id === editingId ? newProduct : product);
+      } else {
+        products.unshift(newProduct);
+      }
+
+      saveProducts();
+      renderAll();
+      resetForm();
+      switchToAdmin();
+    });
+
+    cancelEditBtn.addEventListener("click", resetForm);
+
+    resetAllBtn.addEventListener("click", () => {
+      const confirmed = confirm("Tem certeza que deseja restaurar os produtos padrão?");
+      if (!confirmed) return;
+      products = structuredClone(defaultProducts);
+      saveProducts();
+      renderAll();
+      resetForm();
+    });
+
+    function loadProducts() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (!saved) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultProducts));
+        return structuredClone(defaultProducts);
+      }
+
+      try {
+        return JSON.parse(saved);
+      } catch {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultProducts));
+        return structuredClone(defaultProducts);
+      }
+    }
+
+    function saveProducts() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+    }
+
+    function formatPrice(value) {
+      return value.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+      });
+    }
+
+    function renderStore() {
+      if (!products.length) {
+        productsGrid.innerHTML = `<div class="empty">Nenhum produto cadastrado ainda.</div>`;
+        return;
+      }
+
+      productsGrid.innerHTML = products.map((product) => `
+        <article class="card">
+          <img src="${product.image}" alt="${escapeHtml(product.name)}">
+          <div class="card-body">
+            <span class="category">${product.category}</span>
+            <h3>${escapeHtml(product.name)}</h3>
+            <p>${escapeHtml(product.description)}</p>
+            <span class="price">${formatPrice(product.price)}</span>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function renderAdmin() {
+      if (!products.length) {
+        adminList.innerHTML = `<div class="empty">Nenhum produto para editar.</div>`;
+        return;
+      }
+
+      adminList.innerHTML = products.map((product) => `
+        <div class="admin-item">
+          <img src="${product.image}" alt="${escapeHtml(product.name)}">
+          <div>
+            <h4>${escapeHtml(product.name)} — ${formatPrice(product.price)}</h4>
+            <p><strong>${product.category}</strong><br>${escapeHtml(product.description)}</p>
+            <div class="admin-actions">
+              <button class="secondary-btn" onclick="editProduct('${product.id}')">Editar</button>
+              <button class="danger-btn" onclick="deleteProduct('${product.id}')">Excluir</button>
+            </div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function editProduct(id) {
+      const product = products.find((item) => item.id === id);
+      if (!product) return;
+
+      editingId = id;
+      currentImage = product.image;
+      nameInput.value = product.name;
+      categoryInput.value = product.category;
+      priceInput.value = product.price;
+      descriptionInput.value = product.description;
+      imageInput.value = "";
+
+      formTitle.textContent = "Editar produto";
+      saveBtn.textContent = "Atualizar produto";
+      cancelEditBtn.style.display = "inline-block";
+      switchToAdmin();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function deleteProduct(id) {
+      const confirmed = confirm("Deseja excluir este produto?");
+      if (!confirmed) return;
+      products = products.filter((item) => item.id !== id);
+      saveProducts();
+      renderAll();
+      if (editingId === id) resetForm();
+    }
+
+    function resetForm() {
+      editingId = null;
+      currentImage = "";
+      productForm.reset();
+      formTitle.textContent = "Adicionar produto";
+      saveBtn.textContent = "Salvar produto";
+      cancelEditBtn.style.display = "none";
+    }
+
+    function switchToAdmin() {
+      document.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
+      document.querySelectorAll(".panel").forEach((p) => p.classList.remove("active"));
+      document.querySelector('[data-tab="admin"]').classList.add("active");
+      document.getElementById("admin").classList.add("active");
+    }
+
+    function renderAll() {
+      renderStore();
+      renderAdmin();
+    }
+
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function escapeHtml(text) {
+      return text
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    renderAll();
+
+    window.editProduct = editProduct;
+    window.deleteProduct = deleteProduct;
+  </script>
+</body>
+</html>
